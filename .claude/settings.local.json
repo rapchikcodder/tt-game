@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:play.famobi.com)",
+      "WebFetch(domain:games.cdn.famobi.com)",
+      "Bash(curl:*)",
+      "Bash(BASE=\"https://games.cdn.famobi.com/html5games/t/table-tennis-world-tour/v310\")",
+      "Bash(for f in bgMain.jpg BrandingPlaceholderButton.png countryFlags.jpg firework_175x175.png gameElements.png largeNumbers_75x132.png loader.png loadSpinner.png preloadImage.jpg scoreNumbers_20x37.png shadow.png smallNumbers_23x34.png splashLogo.png uiButs.png uiElements.png)",
+      "Bash(do curl -L -o \"images/$f\" \"$BASE/images/$f\")",
+      "Bash(done)",
+      "Bash(perl:*)",
+      "Bash(python -c:*)",
+      "Bash(powershell -Command \"Select-String -Path ''js\\\\all.js'' -Pattern ''function extGameLoad|extGameLoad\\\\s*='' | ForEach-Object { $_LineNumber }\")",
+      "Bash(powershell -Command \"Select-String -Path ''js\\\\all.js'' -Pattern ''function resizeCanvas|resizeCanvas\\\\s*='' | ForEach-Object { $_LineNumber }\")",
+      "Bash(node -e:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(python -m http.server:*)",
+      "Bash(timeout:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(npx js-beautify:*)",
+      "Bash(copy:*)",
+      "Bash(copy all.js.formatted all.js)"
+    ]
+  }
+}

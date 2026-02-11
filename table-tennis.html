@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Table Tennis World Tour</title>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.01, minimal-ui" />
+	<style>
+		html, body {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			background-color: black;
+		}
+		canvas {
+			-ms-touch-action: none;
+			image-rendering: -o-crisp-edges;
+			image-rendering: optimize-contrast;
+			-ms-interpolation-mode: nearest-neighbor;
+			-webkit-tap-highlight-color: rgba(0,0,0,0);
+			-moz-tap-highlight-color: rgba(0,0,0,0);
+			tap-highlight-color: rgba(0,0,0,0);
+			user-select: none;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+		}
+	</style>
+	<script>
+		// Minimal Famobi API stub - no ads, no tracking, no analytics
+		window.famobi_gameID = "table-tennis-world-tour";
+		window.famobi_env = "local";
+
+		window.famobi = {
+			config: {
+				aid: "LOCAL",
+				features: {
+					lockPointer: false,
+					menu: 1,
+					standalone: true,
+					rotation: 1,
+					tracking: 0,
+					skip_title: false,
+					skip_tutorial: false,
+					credits: 0,
+					login: 0,
+					auto_quality: false,
+					external_start: false,
+					external_pause: false,
+					external_mute: false,
+					multiplayer_local: true,
+					firebase: false,
+					trackstats: false,
+					gameanalytics: false,
+					googleanalytics: false,
+					mixpanel: false,
+					intro: false,
+					leaderboard: 0,
+					multiplayer: 1,
+					fullscreen: 1,
+					screenshot: 0,
+					payment: 0,
+					ads: 0
+				}
+			},
+			hasFeature: function(name) {
+				var f = this.config.features;
+				return f.hasOwnProperty(name) ? !!f[name] : false;
+			},
+			getFeatureProperties: function(name) {
+				return {};
+			},
+			localStorage: {
+				getItem: function(key) {
+					try { return window.localStorage.getItem('famobi_' + key); } catch(e) { return null; }
+				},
+				setItem: function(key, value) {
+					try { window.localStorage.setItem('famobi_' + key, value); } catch(e) {}
+				},
+				removeItem: function(key) {
+					try { window.localStorage.removeItem('famobi_' + key); } catch(e) {}
+				}
+			},
+			sessionStorage: {
+				getItem: function(key) {
+					try { return window.sessionStorage.getItem('famobi_' + key); } catch(e) { return null; }
+				},
+				setItem: function(key, value) {
+					try { window.sessionStorage.setItem('famobi_' + key, value); } catch(e) {}
+				},
+				removeItem: function(key) {
+					try { window.sessionStorage.removeItem('famobi_' + key); } catch(e) {}
+				}
+			},
+			onRequest: function(event, callback) {
+				// Store callbacks for potential future use
+				this._callbacks = this._callbacks || {};
+				this._callbacks[event] = callback;
+			},
+			pointerLockHelper: {
+				mousePos: { x: 0, y: 0 }
+			},
+			gameReady: function() {
+				console.log("Game ready!");
+			},
+			setPreloadProgress: function(pct) {},
+			moreGamesLink: function() { return ""; },
+			getMoreGamesButtonImage: function() { return "images/BrandingPlaceholderButton.png"; },
+			showAd: function(callback) { if (callback) callback(); },
+			showInterstitialAd: function(eventId, callback) { if (callback) callback(); },
+			log: function() {},
+			playerReady: function() {},
+			gameOver: function() {},
+			submitHighscore: function() {},
+			adapters: {
+				run: function() {}
+			}
+		};
+
+		// Fenster stub (handles offset/resize notifications)
+		window.fenster = {
+			subscribeToOffsetUpdates: function(cb) {
+				// No banners/offsets in local mode
+			},
+			getOffset: function() {
+				return { top: 0, bottom: 0, left: 0, right: 0 };
+			}
+		};
+	</script>
+</head>
+<body>
+	<div id="canvas-wrapper" style="overflow:hidden; width:100%; height:100%; margin:0; padding:0; position:absolute;">
+		<canvas id="canvas" moz-opaque></canvas>
+	</div>
+	<script>
+		// Fix Web Audio API Promise issues - patch AudioContext methods before game loads
+		(function() {
+			var AudioContext = window.AudioContext || window.webkitAudioContext;
+			if (AudioContext) {
+				var originalResume = AudioContext.prototype.resume;
+				var originalSuspend = AudioContext.prototype.suspend;
+
+				AudioContext.prototype.resume = function() {
+					console.log("[DEBUG] AudioContext.resume() called");
+					var result = originalResume.call(this);
+					// Ensure it always returns a Promise
+					return result || Promise.resolve();
+				};
+
+				AudioContext.prototype.suspend = function() {
+					console.log("[DEBUG] AudioContext.suspend() called");
+					var result = originalSuspend.call(this);
+					// Ensure it always returns a Promise
+					return result || Promise.resolve();
+				};
+
+				console.log("[DEBUG] AudioContext methods patched to always return Promises");
+			}
+		})();
+	</script>
+	<script src="js/all.js"></script>
+	<script>
+		// Debug logging for game state
+		console.log("[DEBUG] Game script loaded, starting...");
+
+		// Wrap extGameLoad to catch any startup errors
+		try {
+			extGameLoad();
+			console.log("[DEBUG] extGameLoad() called successfully");
+		} catch(e) {
+			console.error("[DEBUG] extGameLoad() failed:", e);
+		}
+
+		// Log any unhandled errors
+		window.addEventListener('error', function(e) {
+			console.error("[DEBUG] Unhandled error:", e.message, "at", e.filename + ":" + e.lineno + ":" + e.colno);
+		});
+	</script>
+</body>
+</html>
