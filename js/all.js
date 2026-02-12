@@ -4588,20 +4588,10 @@ function butEventHandler(t, a) {
             break;
         case "restartFromPause":
             playSound("hit" + Math.floor(6 * Math.random()));
-            try {
-                ).toString(),
-                    reason: "draw"
-                })
-            } catch (t) {}
             1 == audioType ? muted || (Howler.mute(!1), playMusic()) : 2 == audioType && (muted || playMusic()), userInput.removeHitArea("quitFromPause"), userInput.removeHitArea("playFromPause"), userInput.removeHitArea("restartFromPause"), userInput.removeHitArea("control0FromPause"), userInput.removeHitArea("control1FromPause"), userInput.removeHitArea("mute"), initGame(!0);
             break;
         case "quitFromPause":
             playSound("hit" + Math.floor(6 * Math.random()));
-            try {
-                ).toString(),
-                    reason: "quit"
-                })
-            } catch (t) {}
             1 == audioType ? (muted || (Howler.mute(!1), playMusic()), music.fade(music.volume(), .5, 500)) : 2 == audioType && (muted || playMusic()), userInput.removeHitArea("quitFromPause"), userInput.removeHitArea("playFromPause"), userInput.removeHitArea("restartFromPause"), userInput.removeHitArea("control0FromPause"), userInput.removeHitArea("control1FromPause"), userInput.removeHitArea("mute"), initStartScreen()
     }
 }
@@ -4611,12 +4601,27 @@ function updateScore(t) {
 }
 
 function initGameComplete() {
-    oGameData.userScore > oGameData.enemyScore ? (won_matches_in_series_opponent = 0, ++won_matches_in_series_player > 1 && 0 == oGameData.enemyScore && oGameData.gameId + 1 >= 6 && ) : (won_matches_in_series_player = 0, ++won_matches_in_series_opponent > 1 && 0 == oGameData.userScore && )).toString()
-    } : {
-        event: "EVENT_LEVELFAIL",
-        levelName: (6 * oGameData.cupId + (oGameData.gameId + 1)).toString(),
-        reason: "dead"
-    }).then(_initGameComplete, _initGameComplete)
+    if (oGameData.userScore > oGameData.enemyScore) {
+        won_matches_in_series_opponent = 0;
+        if (++won_matches_in_series_player > 1) {
+            // Track series wins
+        }
+        if (0 == oGameData.enemyScore) {
+            // Flawless victory
+        }
+        if (oGameData.gameId + 1 >= 6) {
+            // Cup won
+        }
+    } else {
+        won_matches_in_series_player = 0;
+        if (++won_matches_in_series_opponent > 1) {
+            // Track opponent series wins
+        }
+        if (0 == oGameData.userScore) {
+            // Flawless defeat
+        }
+    }
+    _initGameComplete();
 }
 
 function _initGameComplete() {
@@ -4638,20 +4643,13 @@ function _initGameComplete() {
         align: [.5, .85],
         id: oImageIds.playBut,
         scale: 1e-4
-    }, setTimeout(function() {
-        .toString()
-        }).then(e, e)
-    }.bind(this), 1500)) : (playSound("loseGame"), t = {
+    }, setTimeout(e, 1500)) : (playSound("loseGame"), t = {
         oImgData: assetLib.getData("uiButs"),
         aPos: [0, 0],
         align: [.5, .85],
         id: oImageIds.restartBut,
         scale: 1e-4
-    }, setTimeout(function() {
-        .toString(),
-            reason: "dead"
-        }).then(e, e)
-    }.bind(this), 1500)), userInput.addHitArea("nextFromGameComplete", butEventHandler, null, "image", t);
+    }, setTimeout(e, 1500)), userInput.addHitArea("nextFromGameComplete", butEventHandler, null, "image", t);
     var s = new Array(a, t);
     addMuteBut(s), (panel = new Elements.Panel(gameState, s)).startTween1(), aEffects = new Array, previousTime = (new Date).getTime(), updateGameComplete()
 }
